@@ -18,30 +18,19 @@ The task is episodic, and in order to solve the environment, your agents must ge
 * After each episode, we add up the rewards that each agent received (without discounting), to get a score for each agent. This yields 2 (potentially different) scores. We then take the maximum of these 2 scores.
 * This yields a single score for each episode.
 
+#### Solving the environment
+
 The environment is considered solved, when the average (over 100 episodes) of those scores is at least +0.5.
 
 
-#### Solving the environment
-
-There are two versions of the environment.
-
-* **Version 1: One (1) Agent**  
-The task is episodic, and in order to solve the environment, the agent must get an **average score of +30 over 100 consecutive episodes**.
-
-* **Version 2: Twenty (20) Agents**  
-The barrier to solving the second version of the environment is slightly different, to take into account the presence of many agents. In particular, the agents must get an average score of +30 (over 100 consecutive episodes, and over all agents). Specifically,
- * After each episode, we add up the rewards that each agent received (without discounting), to get a score for each agent. That yields 20 (potentially different) scores. We then take the average of these 20 scores.  
- * That yields an average score for each episode (where the average is over all 20 agents).  
-  
- The environment is considered solved, when the **moving average over 100 episodes** of those average scores **is at least +30**.
+#### Solving the environmented solved, when the **moving average over 100 episodes** of those average scores **is at least +30**.
 
 
 ## Included in this repository
 
-* Continuous_Control.ipynb - notebook to run the project
-* agent.py - ddpg agent implementatioin
-* actor.py - actor model implementation
-* critic.py - critic model implementation
+* Tennis.ipynb - notebook to run the project
+* agent.py - Multi Agent DDPG implmentation that includes code for Actor and Critic agents, functions for traing and testing the agents and utility classes such as ReplayBuffer and OUNoise
+* model.py - the neural network which serves as the function approximator to the DDPG Agent
 * checkpoint.pt - saved agent model (actor and critic)
 * A Report.md - document describing the solution, the learning algorithm, and ideas for future work
 * This README.md file
@@ -54,7 +43,7 @@ The barrier to solving the second version of the environment is slightly differe
 
 ##### Option 1. Download it as a zip file
 
-* [Click here](https://github.com/afilimonov/udacity-deeprl-p2-continous-control/archive/refs/heads/main.zip) to download all the content of this repository as a zip file
+* [Click here](https://github.com/afilimonov/udacity-deeprl-p3-continous-control/archive/refs/heads/main.zip) to download all the content of this repository as a zip file
 * Decompress the downloaded file into a folder of your choice
 
 ##### Option 2. Clone this repository using Git version control system
