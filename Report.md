@@ -14,20 +14,33 @@ The task is episodic, and in order to solve the environment, your agents must ge
 * After each episode, we add up the rewards that each agent received (without discounting), to get a score for each agent. This yields 2 (potentially different) scores. We then take the maximum of these 2 scores.
 * This yields a single score for each episode.
 
-#### Algorithm
 
-The algorithm is used in this implementation is [Multi-Agent Deep Deterministic Policy Gradient MADDPG](https://arxiv.org/abs/1706.02275). MADDPG is based on DDPG algorithm that I used in the prevision Continuous Control project which provided a good starting point for prototyping and developing the final solution.
+#### Solution components
 
-img src="images/multi-agent-actor-critic.png" width="40%" align="top-left" alt="" title="Multi-Agent Actor-Critic" />
+##### Algorithm
 
-> Multi-agent decentralized actor with centralized critic ([Lowe and Wu et al](https://papers.nips.cc/paper/7217-multi-agent-actor-critic-for-mixed-cooperative-competitive-environments.pdf)).
+The algorithm is used in this implementation is [Multi-Agent Deep Deterministic Policy Gradient MADDPG](https://arxiv.org/abs/1706.02275). MADDPG is based on DDPG agent that I used in the prevision Continuous Control project which provided a good starting point for prototyping and developing the final solution.
 
-To explore the action space, the Ornstein-Uhlenbeck noise function is used. This is like the epsilon-greedy function we’ve used in previous projects, but with the added benefit of time correlation. In other words, the noise added at each timestep is correlated with previous noise inputs, so the actions tend to stay in the same direction for longer periods of time leading to more ‘continuous’ or smooth actions through space. 
+<img src="images/multi-agent-actor-critic.png" width="40%" align="top-left" alt="" title="Multi-Agent Actor-Critic" />
 
-A centralized replay buffer is used to enable both agents to learn from each other’s experiences. Samples are collected randomly from the buffer for each learning step. 
+> _MADDPG decentralized actor with centralized critic [Lowe and Wu et al](https://arxiv.org/abs/1706.02275)._
 
-The Neural Networks implemented consist of the following;
-•Actor network – 3 fully connected linear layers. Fc1 is 256 units, fc2 is 128 units, using RELU activation, with fc3 using the tanh activation (maps states to actions). 
-•Critic Network – 3 fully connected linear layers. Fc1 is 256 units, fc2 is 128 units, using RELU activation, with fc3 outputting a single value with no activation (maps state/action pair to a Qvalue).
+The solutiion is based on decentralized actor with centralized critic architecture. It uses a single critic that receives as input the actions and state observations from all agents. This extra information makes training easier and allows for centralized training with decentralized execution i.e. each agents takes actions based on their own observations of the environment. 
 
-The implementation of this MADDPG algorithm leverages and adapts code from the previous Udacity lessons on policy-based methods and actor-critic methods.
+##### Network architectues
+
+[_Actor_](model.py) 
+* First fully connected layer with input size 24 and output size 256
+* Second fully connected layer with input size 256 and output size 128
+* Third fully connected layer with input size 128 and output size 2
+
+
+[_Critic_](model.py)
+* First fully connected layer with input size 24 and output size 256
+* Second fully connected layer with input size (256 + 2) = 258 and output size 128
+* Third fully connected layer with input size 128 and output size 1
+* Batch Normalization layer between first and second layers
+
+I started with 2 hidden layers sizes 512 and 384 for both actor and [384, 256] and ended up with [256, 128] model that converged reasonably well with with acceptable training time. I also tried using Batch Normalization for the actor network but it resulted in a worse traning performance.
+
+
