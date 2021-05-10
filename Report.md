@@ -16,4 +16,4 @@ The task is episodic, and in order to solve the environment, your agents must ge
 
 #### Algorithm
 
-The algorithm is used in this implementation is [Multi-Agent Deep Deterministic Policy Gradient MADDPG](https://arxiv.org/abs/1706.02275).  
+The algorithm is used in this implementation is [Multi-Agent Deep Deterministic Policy Gradient MADDPG](https://arxiv.org/abs/1706.02275). MADDPG is based on DDPG algorithm that I used in the prevision Continuous Control project which provided a good starting point for prototyping and developing the final solution.
