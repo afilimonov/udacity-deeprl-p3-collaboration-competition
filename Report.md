@@ -18,8 +18,9 @@ The task is episodic, and in order to solve the environment, your agents must ge
 
 The algorithm is used in this implementation is [Multi-Agent Deep Deterministic Policy Gradient MADDPG](https://arxiv.org/abs/1706.02275). MADDPG is based on DDPG algorithm that I used in the prevision Continuous Control project which provided a good starting point for prototyping and developing the final solution.
 
-<img src="images/multi-agent-actor-critic.png width="40%" align="top-left" alt="" title="Multi-Agent Actor-Critic" />
-> Multi-agent decentralized actor with centralized critic ([Lowe and Wu et al](https://papers.nips.cc/paper/7217-multi-agent-actor-critic-for-mixed-cooperative-competitive-environments.pdf))._
+img src="images/multi-agent-actor-critic.png" width="40%" align="top-left" alt="" title="Multi-Agent Actor-Critic" />
+
+> Multi-agent decentralized actor with centralized critic ([Lowe and Wu et al](https://papers.nips.cc/paper/7217-multi-agent-actor-critic-for-mixed-cooperative-competitive-environments.pdf)).
 
 To explore the action space, the Ornstein-Uhlenbeck noise function is used. This is like the epsilon-greedy function we’ve used in previous projects, but with the added benefit of time correlation. In other words, the noise added at each timestep is correlated with previous noise inputs, so the actions tend to stay in the same direction for longer periods of time leading to more ‘continuous’ or smooth actions through space. 
 
