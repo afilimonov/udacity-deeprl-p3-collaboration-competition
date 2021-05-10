@@ -41,6 +41,9 @@ The solutiion is based on decentralized actor with centralized critic architectu
 * Third fully connected layer with input size 128 and output size 1
 * Batch Normalization layer between first and second layers
 
-I started with 2 hidden layers sizes 512 and 384 for both actor and [384, 256] and ended up with [256, 128] model that converged reasonably well with with acceptable training time. I also tried using Batch Normalization for the actor network but it resulted in a worse traning performance.
+I started with hidden layers sizes 512 and 384 for both actor and [384, 256] and ended up with [256, 128] model that converged reasonably well with with acceptable training time. I also tried using Batch Normalization for the actor network but it resulted in a worse traning performance.
 
+##### OU Noise Function
+
+To enable environment exploration especially at earlier 
 
