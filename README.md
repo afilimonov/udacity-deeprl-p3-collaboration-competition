@@ -43,13 +43,13 @@ The environment is considered solved, when the average (over 100 episodes) of th
 
 ##### Option 1. Download it as a zip file
 
-* [Click here](https://github.com/afilimonov/udacity-deeprl-p3-continous-control/archive/refs/heads/main.zip) to download all the content of this repository as a zip file
+* [Click here](https://github.com/afilimonov/udacity-deeprl-p3-collaboration-competition/archive/refs/heads/main.zip) to download all the content of this repository as a zip file
 * Decompress the downloaded file into a folder of your choice
 
 ##### Option 2. Clone this repository using Git version control system
 
 ```
-$ git clone https://github.com/afilimonov/udacity-deeprl-p2-continous-control.git
+$ git clone https://github.com/afilimonov/udacity-deeprl-p3-collaboration-competition.git
 ```
 
 ### Install Miniconda
@@ -73,8 +73,8 @@ Alternatively, you can install the complete Anaconda Platform
 **1. Create the environment**  
   
 ```
-$ conda create --name udacity-drlnd-p2 python=3.6
-$ conda activate udacity-drlnd-p2
+$ conda create --name udacity-drlnd-p3 python=3.6
+$ conda activate udacity-drlnd-p3
 ```  
 
 **2. Install PyTorch**  
@@ -132,14 +132,14 @@ You need only select the environment that matches your operating system:
 Start the Jupyter Notebook using the following commands.
 
 ```
-$ conda activate udacity udacity-drlnd-p2
+$ conda activate udacity udacity-drlnd-p3
 $ jupyter notebook
 ```
 
-To train and test the open `Continuous_Control.ipynb` and execute the cells. The notebook contains additional inforamation on all steps requried to train and test the agent.
+To train and test the open `Tennis.ipynb` and execute the cells. The notebook contains additional inforamation on all steps requried to train and test the agent.
 
 #### Additional Information
 
-* [Performance Report](Report.md) - detailed solution walkthrough and performance reports for traing DDPG agent.
+* [Performance Report](Report.md) - detailed solution walkthrough and performance reports for traing Multi DDPG agent.
 
 
