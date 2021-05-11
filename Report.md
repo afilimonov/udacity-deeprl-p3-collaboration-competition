@@ -135,4 +135,12 @@ The model without noise decay demostrated steady average score improment and was
  
 Model with noise decay had higer testing scores with bigger variation. The model without decay had lower testing scores with smaller variatioin. My interpretaton of the results is that without noise decay the agent spends more time exploring the environment and this leads to the model with broad action/state space that works reasonable well in most scenarios. With noise decay the agent spends less time exploring and this results in a model biased towards subset of action/state space. It performs really well in this subset and fares poorly with the environment states the agent hasn't explored enough.
 
- 
+This enviroment seems to favor more aggressive exploration and applying a simplisting noise decay doesn't work particularly well. There is definitely a better way to find exploaration vs explotaion balance which I cover in the future work section.
+
+### Future work ideas
+
+* Experiment different approches for finding better exploaration vs explotaion balance. E.g. apply noise later in the traing by setting episode threshold. QU Noise hyperameters coulld be fine tuned as well. E.g. adjusting sigma may reduce noise volitility and help the model to converge better. Another idea is to increse OU Noise output early in the training process to help the agent to explor even more aggressively and work better with noise decay.  
+* Implement [Prioritized Experienece Replay](https://arxiv.org/abs/1511.05952). This can improve learning by increasing the probability that rare or important experiences can be sampled and explored.
+* Address model stability to get more consistent results. One approach could be to implment [Gradient Clipping](https://machinelearningmastery.com/exploding-gradients-in-neural-networks/)
+* Implement Play Soccer challenge.
+
