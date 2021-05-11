@@ -48,21 +48,29 @@ I started with hidden layers sizes 512 and 384 for both actor and [384, 256] and
 To enable environment exploration especially at earlier 
 
 
-Tranning results without noise decay
+#### Traning Results
+
+##### Tranning results without noise decay
+
+###### Agent traing logs
 
 ```
-Episode 590, Average Score: 0.40, Max: 1.20, Min: 0.00, Avg: 0.57, Time: 4.66
-Episode 600, Average Score: 0.41, Max: 0.90, Min: 0.00, Avg: 0.40, Time: 0.46
-Episode 610, Average Score: 0.44, Max: 1.80, Min: 0.00, Avg: 0.57, Time: 8.51
-Episode 620, Average Score: 0.44, Max: 1.40, Min: 0.10, Avg: 0.48, Time: 5.38
-Episode 630, Average Score: 0.44, Max: 1.50, Min: 0.00, Avg: 0.47, Time: 1.65
-Episode 640, Average Score: 0.46, Max: 1.40, Min: 0.00, Avg: 0.54, Time: 6.67
+...
+Episode 470, Average Score: 0.40, Max: 1.90, Min: 0.20, Avg: 0.62, Time: 3.82
+Episode 480, Average Score: 0.42, Max: 1.70, Min: 0.10, Avg: 0.46, Time: 3.32
+Episode 490, Average Score: 0.44, Max: 1.40, Min: 0.00, Avg: 0.53, Time: 0.48
+Episode 500, Average Score: 0.44, Max: 1.50, Min: 0.10, Avg: 0.67, Time: 3.29
+Episode 510, Average Score: 0.46, Max: 2.00, Min: 0.09, Avg: 0.61, Time: 0.57
+Episode 520, Average Score: 0.47, Max: 1.60, Min: 0.00, Avg: 0.49, Time: 2.28
 
 
-Environment solved in 648 episodes!	Moving Average Score: 0.503
-
-Saving model ... done.
+Environment solved in 522 episodes!	Moving Average Score: 0.504
 ```
+
+###### Traning Graph
+
+![](./images/results.png)
+
 
 Test resluts without noise decay 
 ```
@@ -73,4 +81,25 @@ Total score (averaged over agents) this episode: 0.7950000129640102
 Total score (averaged over agents) this episode: 0.8950000135228038
 ```
 
+##### Tranning results with noise decay
 
+###### Agent traing logs
+
+ ```
+ ...
+Episode 370, Average Score: 0.07, Max: 0.20, Min: 0.00, Avg: 0.09, Time: 1.16
+Episode 380, Average Score: 0.07, Max: 0.10, Min: 0.00, Avg: 0.08, Time: 0.90
+Episode 390, Average Score: 0.08, Max: 0.20, Min: 0.00, Avg: 0.10, Time: 0.92
+Episode 400, Average Score: 0.09, Max: 0.30, Min: 0.00, Avg: 0.14, Time: 0.93
+Episode 410, Average Score: 0.10, Max: 0.30, Min: 0.10, Avg: 0.15, Time: 0.93
+Episode 420, Average Score: 0.15, Max: 2.60, Min: 0.10, Avg: 0.67, Time: 11.83
+Episode 430, Average Score: 0.32, Max: 2.70, Min: 0.10, Avg: 1.74, Time: 29.20
+Episode 440, Average Score: 0.50, Max: 2.70, Min: 0.10, Avg: 1.88, Time: 29.27
+
+
+Environment solved in 441 episodes!	Moving Average Score: 0.523
+ ```
+ 
+ ###### Traning Graph
+ 
+ ![](./images/download-noise-decay.png)
