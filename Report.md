@@ -103,3 +103,28 @@ Environment solved in 441 episodes!	Moving Average Score: 0.523
  ###### Traning Graph
  
  ![](./images/download-noise-decay.png)
+ 
+ 
+ #### Testing Results
+
+##### Aent testing logs without noise decay
+
+```
+Total score (averaged over agents) this episode: 0.9450000151991844
+Total score (averaged over agents) this episode: 0.9450000142678618
+Total score (averaged over agents) this episode: 0.24500000476837158
+Total score (averaged over agents) this episode: 0.4950000075623393
+Total score (averaged over agents) this episode: 0.3450000053271651
+```
+
+##### Agent testing logs with noise decay
+
+```
+Total score (averaged over agents) this episode: 2.600000038743019
+Total score (averaged over agents) this episode: 0.04500000085681677
+Total score (averaged over agents) this episode: 2.600000038743019
+Total score (averaged over agents) this episode: 0.19500000309199095
+Total score (averaged over agents) this episode: 2.600000038743019
+```
+
+ 
