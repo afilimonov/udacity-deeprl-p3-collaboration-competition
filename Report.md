@@ -127,4 +127,12 @@ Total score (averaged over agents) this episode: 0.19500000309199095
 Total score (averaged over agents) this episode: 2.600000038743019
 ```
 
+ ### Exploration vs Exploitation
+ 
+ As was mentioned before to OU Noise was introduced to enable environment exploration by the agent. Particular challenge with this is so called exploration vs. exploitation dilemma i.e. choosing which action to take while the agent is still learning the optimal policy. Should the agent choose an action based on the rewards observed so far. Alternatively should the agent explor other actions in hope and that will lead to pententially higher rewards later on? In this implementaion I investigated an impact of noise decay that reduces exploartion compoennt over time. I trained one model without noise decay and another one with ```_noise_decay = 0.999``` applied during model traing. 
+ 
+The model without noise decay demostrated steady average score improment and was able to converge around 500 episode. I tried multiple traning rounds and there relatively small variation with the environment solved within 500-600 episodes. Introducing noise decay changed the training pattern. It took the agent longer to get average score improvent but but after some time the model converged very fast in just 20-30 episodes. Doing multiple trainng rounds showed singificant vartion in when the mode started to converge (between 400-700 episodes).
+ 
+Model with noise decay had higer test score but with bigger variation. The model without decay had lower testing scores with smaller variatioin. My interpretaton of the results is that without noise decay the agent spends more time exploring the environment and trains the model that works on a broader set of the environment states. With noise decay the agent spends less time exploring and this results in a model biased smaller subset of the environment states. It performs bettr in this subset and fare poorly in the state the agent hasn't explored enough.
+
  
