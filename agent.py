@@ -11,13 +11,13 @@ import torch
 import torch.nn.functional as F
 import torch.optim as optim
 
-BUFFER_SIZE = int(1e5)  # replay buffer size
-BATCH_SIZE = 256        # minibatch size
-GAMMA = 0.99            # discount factor
-TAU = 3e-1              # for soft update of target parameters
-LR_ACTOR = 1e-4         # learning rate of the actor 
-LR_CRITIC = 1e-4        # learning rate of the critic
-WEIGHT_DECAY = 0        # L2 weight decay
+_batch_size = 256       # minibatch size
+_buffer_size = int(1e5) # replay buffer size
+_gamma = 0.99           # discount factor
+_lr_actor = 1e-4        # learning rate of the actor 
+_lr_critic = 1e-4       # learning rate of the critic
+_tau = 3e-1             # soft update interpolation
+_noise_decay = 0.999    # OU Noise decay
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -42,18 +42,19 @@ class Agent():
         # Actor Network (w/ Target Network)
         self.actor_local = Actor(state_size, action_size, random_seed).to(device)
         self.actor_target = Actor(state_size, action_size, random_seed).to(device)
-        self.actor_optimizer = optim.Adam(self.actor_local.parameters(), lr=LR_ACTOR)
+        self.actor_optimizer = optim.Adam(self.actor_local.parameters(), lr=_lr_actor)
 
         # Critic Network (w/ Target Network)
         self.critic_local = Critic(state_size, action_size, random_seed).to(device)
         self.critic_target = Critic(state_size, action_size, random_seed).to(device)
-        self.critic_optimizer = optim.Adam(self.critic_local.parameters(), lr=LR_CRITIC, weight_decay=WEIGHT_DECAY)
+        self.critic_optimizer = optim.Adam(self.critic_local.parameters(), lr=_lr_critic, weight_decay=0)
 
         # Noise process
+        self.noise_decay = _noise_decay
         self.noise = OUNoise(action_size, random_seed)
 
         # Replay memory
-        self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, random_seed)
+        self.memory = ReplayBuffer(action_size, _buffer_size, _batch_size, random_seed)
     
     def step(self, states, actions, rewards, next_states, dones):
         """[FOR EACH AGENT]Save experience in replay memory, and use random sample from buffer to learn."""
@@ -61,11 +62,11 @@ class Agent():
             self.memory.add(states[i], actions[i], rewards[i], next_states[i], dones[i])
 
         # Learn, if enough samples are available in memory
-        if len(self.memory) > BATCH_SIZE:
+        if len(self.memory) > _batch_size:
             experiences = self.memory.sample()
-            self.learn(experiences, GAMMA)
+            self.learn(experiences, _gamma)
 
-    def act(self, states, add_noise=True):
+    def act(self, states, add_noise=True, apply_noise_decay=False):
         """Returns actions for given states as per current policy."""
         states = torch.from_numpy(states).float().to(device)
         actions = []
@@ -77,7 +78,12 @@ class Agent():
                 actions.append(action)
         self.actor_local.train()
         if add_noise:
-            actions += self.noise.sample()
+            noise = self.noise.sample()
+            if apply_noise_decay:
+                actions += self.noise_decay*noise
+                self.noise_decay *= self.noise_decay
+            else:
+                actions += noise
         return np.clip(actions, -1, 1)
 
     def reset(self):
@@ -121,8 +127,8 @@ class Agent():
         self.actor_optimizer.step()
 
         # ----------------------- update target networks ----------------------- #
-        self.soft_update(self.critic_local, self.critic_target, TAU)
-        self.soft_update(self.actor_local, self.actor_target, TAU)                     
+        self.soft_update(self.critic_local, self.critic_target, _tau)
+        self.soft_update(self.actor_local, self.actor_target, _tau)                     
 
     def soft_update(self, local_model, target_model, tau):
         """Soft update model parameters.
@@ -136,7 +142,7 @@ class Agent():
         for target_param, local_param in zip(target_model.parameters(), local_model.parameters()):
             target_param.data.copy_(tau*local_param.data + (1.0-tau)*target_param.data)
 
-    def train(self, env, n_episodes=3000, checkpoint_file='checkpoint.pt', print_every=10):
+    def train(self, env, n_episodes=3000, checkpoint_file='checkpoint.pt', print_every=10, apply_noise_decay=False):
         """Deep Deterministic Policy Gradients (DDPG).
         Params
         ======
@@ -170,7 +176,8 @@ class Agent():
             score_average = 0
 
             for t in count():
-                actions = self.act(states)                        # get actions (for each state==for each agent)
+                actions = self.act(states, 
+                                   apply_noise_decay=apply_noise_decay) # get actions (for each state==for each agent)
                 env_info = env.step(actions)[brain_name]           # send actions to env
                 next_states = env_info.vector_observations         # get next state
                 rewards = env_info.rewards                         # get reward
@@ -212,14 +219,14 @@ class Agent():
 
         return scores_all, moving_average                    
 
-    def save(self, file):
+    def save(self, file='checkpoint.pt'):
         """ Save the model """
         checkpoint = {
             'actor_dict': self.actor_local.state_dict(),
             'critic_dict': self.critic_local.state_dict()
             }
         print('\nSaving model ...', end=' ')
-        torch.save(checkpoint, 'checkpoint.pt')
+        torch.save(checkpoint, file)
         print('done.')
         
     def load(self, file='checkpoint.pt', map_location='cpu'):
@@ -241,9 +248,9 @@ class Agent():
             brain = env.brains[brain_name]                           
             env_info = env.reset(train_mode=False)[brain_name]     # reset the environment    
             states = env_info.vector_observations                  # get the current state (for each agent)
-            scores = np.zeros(self.num_agents)                          # initialize the score (for each agent)
+            scores = np.zeros(self.num_agents)                     # initialize the score (for each agent)
             while True:
-                actions = self.act(states)                        # select an action (for each agent)
+                actions = self.act(states, add_noise=False)        # select an action (for each agent)
                 env_info = env.step(actions)[brain_name]           # send all actions to tne environment
                 next_states = env_info.vector_observations         # get next state (for each agent)
                 rewards = env_info.rewards                         # get reward (for each agent)
