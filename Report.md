@@ -45,7 +45,25 @@ I started with hidden layers sizes 512 and 384 for both actor and [384, 256] and
 
 ##### OU Noise Function
 
-To enable environment exploration especially at earlier 
+To enable environment exploration by the agent Ornstein-Uhlenbeck funciton OU Noise is used. Exploration vs Exploitation topic is covered in more detail later section of this report
+
+
+##### Experience Replay
+
+The solution is using shared Replay Buffer to enable the agents to learn from each others experiences. Random sampling of past experience breaks correlation between sequential experiences and alos allows the agent to learn from the same experience multiple times.
+
+
+##### Hyperparameters
+
+```
+_batch_size = 256       # minibatch size
+_buffer_size = int(1e5) # replay buffer size
+_gamma = 0.99           # discount factor
+_lr_actor = 1e-4        # learning rate of the actor 
+_lr_critic = 1e-4       # learning rate of the critic
+_tau = 3e-1             # soft update interpolation
+_noise_decay = 0.999    # OU Noise decay
+```
 
 
 #### Traning Results
@@ -141,6 +159,6 @@ This enviroment seems to favor more aggressive exploration and applying a simpli
 
 * Experiment different approches for finding better exploaration vs explotaion balance. E.g. apply noise later in the traing by setting episode threshold. QU Noise hyperameters coulld be fine tuned as well. E.g. adjusting sigma may reduce noise volitility and help the model to converge better. Another idea is to increse OU Noise output early in the training process to help the agent to explor even more aggressively and work better with noise decay.  
 * Implement [Prioritized Experienece Replay](https://arxiv.org/abs/1511.05952). This can improve learning by increasing the probability that rare or important experiences can be sampled and explored.
-* Address model stability to get more consistent results. One approach could be to implment [Gradient Clipping](https://machinelearningmastery.com/exploding-gradients-in-neural-networks/)
+* Address model stability to get more consistent results. One approach could be to implement [Gradient Clipping](https://machinelearningmastery.com/exploding-gradients-in-neural-networks/).
 * Implement Play Soccer challenge.
 
