@@ -66,11 +66,11 @@ _noise_decay = 0.999    # OU Noise decay
 ```
 
 
-#### Traning Results
+#### Training Results
 
-##### Tranning results without noise decay
+##### Training results without noise decay
 
-###### Agent traing logs
+###### Agent training logs
 
 ```
 ...
@@ -85,23 +85,14 @@ Episode 520, Average Score: 0.47, Max: 1.60, Min: 0.00, Avg: 0.49, Time: 2.28
 Environment solved in 522 episodes!	Moving Average Score: 0.504
 ```
 
-###### Traning Graph
+###### Training Graph
 
 ![](./images/results.png)
 
 
-Test resluts without noise decay 
-```
-Total score (averaged over agents) this episode: 0.5450000083073974
-Total score (averaged over agents) this episode: 0.1450000023469329
-Total score (averaged over agents) this episode: 1.995000029914081
-Total score (averaged over agents) this episode: 0.7950000129640102
-Total score (averaged over agents) this episode: 0.8950000135228038
-```
+##### Training results with noise decay
 
-##### Tranning results with noise decay
-
-###### Agent traing logs
+###### Agent training logs
 
  ```
  ...
@@ -118,12 +109,12 @@ Episode 440, Average Score: 0.50, Max: 2.70, Min: 0.10, Avg: 1.88, Time: 29.27
 Environment solved in 441 episodes!	Moving Average Score: 0.523
  ```
  
- ###### Traning Graph
+ ###### Training Graph
  
  ![](./images/download-noise-decay.png)
  
  
- #### Testing Results
+#### Testing Results
 
 ##### Aent testing logs without noise decay
 
@@ -147,17 +138,17 @@ Total score (averaged over agents) this episode: 2.600000038743019
 
  ### Exploration vs Exploitation
  
- As was mentioned before to OU Noise was introduced to enable environment exploration by the agent. There is a particular challenge related to this known as exploration vs. exploitation dilemma i.e. choosing which action to take while the agent is still learning the optimal policy. Should the agent choose an action based on the rewards observed so far. Alternatively should the agent explor other actions in hope and that will lead to pententially higher rewards later on? In this implementaion I investigated an impact of noise decay that reduces exploartion compoennt over time. I trained one model without noise decay and another one with ```_noise_decay = 0.999``` applied during model traing. 
+ As was mentioned earlier OU Noise function was introduced to enable environment exploration by the agent. There is a particular challenge related to this known as exploration vs. exploitation dilemma i.e. choosing which action to take while the agent is still learning the optimal policy. Should the agent choose an action based on the rewards observed so far. Alternatively should the agent explor other actions in hope and that will lead to pententially higher rewards later on? In this implementaion I investigated an impact of noise decay that reduces exploartion compoennt over time. I trained one model without noise decay and another one with ```_noise_decay = 0.999``` applied during the agent traing. 
  
-The model without noise decay demostrated steady average score improment and was able to converge around 500 episode. I tried multiple traning rounds and there relatively small variation with the environment solved within 500-600 episodes. Introducing noise decay changed the training pattern. It took the agent longer to get average score improvent but but after some time the model converged very fast in just 20-30 episodes. Doing multiple trainng rounds showed singificant vartion in when the mode started to converge (between 400-700 episodes).
+The model without noise decay demostrated steady average score improment and was able to converge around 500 episode. I tried multiple traning rounds and there was relatively small variation with the environment solved within 500-650 episodes. Introducing noise decay changed the training pattern. It took the agent longer to get average score to improve but at some point the model converged very fast in just 20-30 episodes. Doing multiple trainng rounds showed singificant vartion in when the model started to converge (between 400-800 episodes).
  
-Model with noise decay had higer testing scores with bigger variation. The model without decay had lower testing scores with smaller variatioin. My interpretaton of the results is that without noise decay the agent spends more time exploring the environment and this leads to the model with broad action/state space that works reasonable well in most scenarios. With noise decay the agent spends less time exploring and this results in a model biased towards subset of action/state space. It performs really well in this subset and fares poorly with the environment states the agent hasn't explored enough.
+Model with noise decay had higer testing scores but bigger variation. The model without decay had lower testing scores with smaller variatioin. My interpretaton of the results is that without noise decay the agent spends more time exploring the environment and this leads to a model trained over a broad action/state space that makes it work reasonably well in most scenarios. With noise decay the agent spends less time exploring and this results in a model biased towards a subset of action/state space. It performs really well in this subset and fares poorly in the scenarios the agent has not had opportunity to explore.
 
-This enviroment seems to favor more aggressive exploration and applying a simplisting noise decay doesn't work particularly well. There is definitely a better way to find exploaration vs explotaion balance which I cover in the future work section.
+This enviroment seems to favor more aggressive exploration and applying a simplistic noise decay doesn't work particularly well. There is definitely a better way to find exploaration vs explotaion balance.
 
 ### Future work ideas
 
-* Experiment different approches for finding better exploaration vs explotaion balance. E.g. apply noise later in the traing by setting episode threshold. QU Noise hyperameters coulld be fine tuned as well. E.g. adjusting sigma may reduce noise volitility and help the model to converge better. Another idea is to increse OU Noise output early in the training process to help the agent to explor even more aggressively and work better with noise decay.  
+* Experiment different approches for finding better exploaration vs explotaion balance. E.g. apply noise later in the traing by setting episode threshold. QU Noise hyperameters coulld be fine tuned as well. E.g. reducing noise volitility may help the model to converge better. Another idea is to increse OU Noise output early in the training process to allow the agent to do more aggressiv initial exploration. The noise level could be reduced later in the training using noise decay.  
 * Implement [Prioritized Experienece Replay](https://arxiv.org/abs/1511.05952). This can improve learning by increasing the probability that rare or important experiences can be sampled and explored.
 * Address model stability to get more consistent results. One approach could be to implement [Gradient Clipping](https://machinelearningmastery.com/exploding-gradients-in-neural-networks/).
 * Implement Play Soccer challenge.
